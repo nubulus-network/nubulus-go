@@ -5,7 +5,7 @@ plataforma en nombre de alguien. El primero es `mcp-server`.
 
 | Paquete | Qué hay |
 |---|---|
-| `nubulus` (raíz) | Cliente de DNS, túneles y accounts; errores tipados (`APIError`, `StatusOf`, `CodeOf`, `Explain`); validación de nombres como la de las APIs |
+| `nubulus` (raíz) | Cliente de DNS, túneles, accounts y WAF (sitios, configuración, logs y analítica); errores tipados (`APIError`, `StatusOf`, `CodeOf`, `Explain`); validación de nombres como la de las APIs |
 | `auth` | Validación de JWT de plataforma emitidos por Zitadel: RS256 contra el JWKS, issuer exacto, proyecto entre los `aud`, `exp` obligatorio y roles del proyecto |
 
 Nace de `terraform-provider-nubuluscloud/internal/nubulus` (commit `d0a266d`), y el provider lo usa
