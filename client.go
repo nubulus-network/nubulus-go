@@ -40,6 +40,8 @@ const (
 	DefaultTunnelEndpoint = "https://tunel.api.nubulusnetwork.es"
 	// DefaultAccountsEndpoint is accounts-api.
 	DefaultAccountsEndpoint = "https://accounts.api.nubulusnetwork.es"
+	// DefaultWAFEndpoint is waf-api.
+	DefaultWAFEndpoint = "https://waf.api.nubulusnetwork.es"
 
 	// DefaultProjectID is the project the access token is scoped to. It is what
 	// the audience scope below is built from, and it is the same value that
@@ -85,6 +87,7 @@ type Config struct {
 	DNSEndpoint      string
 	TunnelEndpoint   string
 	AccountsEndpoint string
+	WAFEndpoint      string
 
 	UserAgent string
 
@@ -113,6 +116,8 @@ type Client struct {
 	Tunnel *TunnelClient
 	// Accounts is accounts-api.
 	Accounts *AccountsClient
+	// WAF is waf-api.
+	WAF *WAFClient
 }
 
 // New builds the client, minting nothing: the first token is fetched lazily by
@@ -134,6 +139,9 @@ func New(ctx context.Context, cfg Config) (*Client, error) {
 	}
 	if cfg.AccountsEndpoint == "" {
 		cfg.AccountsEndpoint = DefaultAccountsEndpoint
+	}
+	if cfg.WAFEndpoint == "" {
+		cfg.WAFEndpoint = DefaultWAFEndpoint
 	}
 
 	httpClient := cfg.HTTPClient
@@ -191,6 +199,11 @@ func New(ctx context.Context, cfg Config) (*Client, error) {
 		}},
 		Accounts: &AccountsClient{service: service{
 			base:      strings.TrimSuffix(cfg.AccountsEndpoint, "/"),
+			http:      httpClient,
+			userAgent: cfg.UserAgent,
+		}},
+		WAF: &WAFClient{service: service{
+			base:      strings.TrimSuffix(cfg.WAFEndpoint, "/"),
 			http:      httpClient,
 			userAgent: cfg.UserAgent,
 		}},
